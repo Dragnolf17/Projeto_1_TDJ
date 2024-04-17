@@ -1,6 +1,6 @@
 # Projeto_1_TDJ
 
-Francisco Pinheiro Ribeiro a27942
+Francisco Pinheiro Ribeiro a27942 \n
 José Miguel Cunha a22550
 
 ----------------------------------------------------------------------------------------------------------------------------
