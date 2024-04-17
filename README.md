@@ -1,2 +1,6 @@
 # Projeto_1_TDJ
-Projeto de Técnicas de Desenvolvimento de Jogos
+
+Francisco Pinheiro Ribeiro a27942
+José Miguel Cunha a22550
+
+----------------------------------------------------------------------------------------------------------------------------
