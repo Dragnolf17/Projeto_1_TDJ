@@ -13,7 +13,7 @@ José Miguel Cunha a22550
   O nosso utilizador dividiu o seu código em 3 classes mais o *Game1.cs* em si. Esta classes sendo:  
   -***Globals.cs***;  
   -***Ball.cs***;  
-  -***Pallet.cs***;
+  -***Palet.cs***;
 
 ---
 
@@ -55,4 +55,66 @@ internal class Globals
 ```
  Ela vem com algumas variáveis que nos vão ajudar no código em relação ao tamanho, posicionamento e movimento da nossa bola.  
 
+```
+  public Ball()
+  {
+      rect = new Rectangle((Globals.WIDTH - w) / 2, (Globals.HEIGHT - h) / 2, w, h);
+  }
+```  
+Esta secção está encarregue de inserir a nossa bola no centro da tela, assim como também o seu tamanho.  
 
+```
+  public void Update(GameTime gt, Palet p1, Palet p2)
+  {
+      int dt = (int)(gt.ElapsedGameTime.TotalSeconds * speed);
+
+      if (rect.Y <= 0 || rect.Y >= Globals.HEIGHT - h) down *= -1;
+
+      if (p1.rect.Intersects(rect) || p2.rect.Intersects(rect)) right *= -1;
+
+      if(rect.X <= 0)
+      {
+          Globals.p2_points++;
+          resetGame();
+      }
+      if(rect.X >= Globals.WIDTH - w)
+      {
+          Globals.p1_points++;
+          resetGame();
+      }
+
+      rect.X += dt * right;
+      rect.Y += dt * down;
+  }
+```
+Esta secção trata da interação que a bola tem com o resto do jogo. Delimitando a bola para só o tela do jogo em si, assim como a interação da bola com os jogadores. Também é responsável pela atualização da pontuação dos jogadores quando a bola chega a uma das bordas laterais do ecrã.  
+
+```
+  void resetGame()
+  {
+     rect.X = (Globals.WIDTH - w) / 2;
+     rect.Y = (Globals.HEIGHT - h) / 2;
+  }
+```
+Aqui temos a função ***resetGame()*** que, como o nome nos diz, reseta o jogo para começar a nova rodada, posicionando a nossa bola devolta no centro da tela.
+
+```
+  public void Draw()
+  {
+      Globals.spriteBatch.Draw(Globals.pixel, rect, Color.White);
+  }
+```
+Isto serve para dar a nossa bola uma forma para os jogadores poderem visualiza-la enquanto jogam.
+
+### Palet.cs
+
+  Esta classe é responsável pela criação e controlo das paletes para ambos jogadores. 
+
+```
+  bool isSecondPlayer;
+  int w = 40;
+  int h = 300;
+  float speed = 700f;
+
+  public Rectangle rect;
+```
