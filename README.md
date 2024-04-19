@@ -61,7 +61,7 @@ internal class Globals
       rect = new Rectangle((Globals.WIDTH - w) / 2, (Globals.HEIGHT - h) / 2, w, h);
   }
 ```  
--**Ball** - Esta secção está encarregue de inserir a nossa bola no centro da tela, assim como também o seu tamanho.  
+- **Ball** - Esta secção está encarregue de inserir a nossa bola no centro da tela, assim como também o seu tamanho.  
 
 ```
   public void Update(GameTime gt, Palet p1, Palet p2)
@@ -87,7 +87,7 @@ internal class Globals
       rect.Y += dt * down;
   }
 ```
--**Update** - Esta secção trata da interação que a bola tem com o resto do jogo. Delimitando a bola para só o tela do jogo em si, assim como a interação da bola com os jogadores. Também é responsável pela atualização da pontuação dos jogadores quando a bola chega a uma das bordas laterais do ecrã.  
+- **Update** - Esta secção trata da interação que a bola tem com o resto do jogo. Delimitando a bola para só o tela do jogo em si, assim como a interação da bola com os jogadores. Também é responsável pela atualização da pontuação dos jogadores quando a bola chega a uma das bordas laterais do ecrã.  
 
 ```
   void resetGame()
@@ -96,7 +96,7 @@ internal class Globals
      rect.Y = (Globals.HEIGHT - h) / 2;
   }
 ```
--**RestGame** - Aqui temos a função ***resetGame()*** que, como o nome nos diz, reseta o jogo para começar a nova rodada, posicionando a nossa bola devolta no centro da tela.
+- **RestGame** - Aqui temos a função ***resetGame()*** que, como o nome nos diz, reseta o jogo para começar a nova rodada, posicionando a nossa bola devolta no centro da tela.
 
 ```
   public void Draw()
