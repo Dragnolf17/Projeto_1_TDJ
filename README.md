@@ -40,4 +40,19 @@ internal class Globals
 
 ```
 
+### Ball.cs
+
+  Esta classe é responsável pela bola à qual os jogadores vão atirar entre si. 
+
+```
+  int w = 30;
+  int h = 30;
+  Rectangle rect;
+  float speed = 1000f;
+
+  int right = 1;
+  int down = 1;
+```
+ Ela vem com algumas variáveis que nos vão ajudar no código em relação ao tamanho, posicionamento e movimento da nossa bola.  
+
 
