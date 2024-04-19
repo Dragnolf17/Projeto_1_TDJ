@@ -11,7 +11,7 @@ José Miguel Cunha a22550
   Para verem o código original podem clicar [aqui](https://github.com/papnotag/MonogamePong.git).  
 
   O nosso utilizador dividiu o seu código em 3 classes mais o *Game1.cs* em si. Esta classes sendo:  
-  -***Globals.cs***;
+  -***Globals.cs***;  
   -***Ball.cs***;  
   -***Pallet.cs***;
 
