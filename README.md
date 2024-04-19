@@ -10,7 +10,7 @@ José Miguel Cunha a22550
   Iremos apresentar o código da recriação de um jogo clássico na história de videojogos, Pong. Nesta apresentação iremos demonstrar o código utilizado pelo utilizador, como funciona e até o problema com o jogo do momento.  
   Para verem o código original podem clicar [aqui](https://github.com/papnotag/MonogamePong.git).  
 
-  O nosso utilizador dividiu o seu código em 3 classes mais o *Game1.cs* em si. Esta classes sendo:  
+  O nosso utilizador dividiu o seu código em 3 classes mais a classe *Game1.cs* em si. Esta classes sendo:  
   -***Globals.cs***;  
   -***Ball.cs***;  
   -***Palet.cs***;
@@ -96,7 +96,7 @@ internal class Globals
      rect.Y = (Globals.HEIGHT - h) / 2;
   }
 ```
-- **RestGame** - Aqui temos a função ***resetGame()*** que, como o nome nos diz, reseta o jogo para começar a nova rodada, posicionando a nossa bola devolta no centro da tela.
+- **ResetGame** - Aqui temos a função ***resetGame()*** que, como o nome nos diz, reseta o jogo para começar a nova rodada, posicionando a nossa bola devolta no centro da tela.
 
 ```
   public void Draw()
@@ -118,3 +118,133 @@ Isto serve para dar a nossa bola uma forma para os jogadores poderem visualiza-l
 
   public Rectangle rect;
 ```
+  As variáveis globais que serão utilizados para a nossa classe *Palet*.
+
+```
+  public Palet(bool sp)
+  {
+     isSecondPlayer = sp;
+     rect = new Rectangle(sp ? Globals.WIDTH - w : 0, (Globals.HEIGHT - h) / 2, w, h);
+  }
+```
+- **Palet** - Trata da criação da palete dos jogadores, posicionando-lhes nos extremos laterais do ecrã.
+
+```
+  public void Update(GameTime gt)
+  {
+     int dt = (int)(gt.ElapsedGameTime.TotalSeconds * speed);
+     KeyboardState kstate = Keyboard.GetState();
+
+     if((isSecondPlayer ? kstate.IsKeyDown(Keys.Up) : kstate.IsKeyDown(Keys.W)) && rect.Y > 0)
+     {
+         rect.Y -= dt;
+     }
+     if((isSecondPlayer ? kstate.IsKeyDown(Keys.Down) : kstate.IsKeyDown(Keys.S)) && rect.Y < Globals.HEIGHT-h)
+     {
+         rect.Y += dt;
+     }
+  }
+```
+- **Update** - Está em carregue da atualização do movimento das paletes dos jogadores quando estes usam as teclas W e S, e as setas Cima e Baixo.
+
+```
+  public void Draw()
+  {
+      Globals.spriteBatch.Draw(Globals.pixel, rect, Color.White);
+  }
+```
+- **Draw** - Dá aos jogadores uma apresentação visual das paletes deles de forma a poderem jogar.
+
+---
+## Game1.cs
+
+  Com a maior parte dos aspetos tratados nas classes mencionadas anteriormente, a classe *Game1.cs* está em carregue de organizar tudo de forma a que o jogo possa ser rodado. 
+
+```
+  private GraphicsDeviceManager _graphics;
+  Palet p1;
+  Palet p2;
+  Ball ball;
+```
+  Preparar os vários componentes que necessitamos para preparar o jogo. Os jogadores, a bola e a tela de jogo usada para jogar.
+
+```
+  public Game1()
+  {
+      _graphics = new GraphicsDeviceManager(this);
+      Content.RootDirectory = "Content";
+      IsMouseVisible = false;
+      _graphics.PreferredBackBufferWidth = Globals.WIDTH;
+      _graphics.PreferredBackBufferHeight = Globals.HEIGHT;
+      _graphics.IsFullScreen = Globals.isFullScreen;
+  }
+```
+- **Game1** - Está em carregue de preparar a tela de jogo, removendo o rato do ecrã assim como delimitando a tela para o tamanho do ecrã e removendo as bordas de forma a que o jogo seja *fullscreen*.
+
+```
+  protected override void Initialize()
+  {
+      p1 = new Palet(false);
+      p2 = new Palet(true);
+      ball = new Ball();
+      base.Initialize();
+  }
+```
+- **Initialize** - Inicializa os dois jogadores assim como também a bola que será usada para jogar.
+
+```
+  protected override void LoadContent()
+  {
+      Globals.spriteBatch = new SpriteBatch(GraphicsDevice);
+      Globals.pixel = new Texture2D(GraphicsDevice, 1, 1);
+      Globals.pixel.SetData<Color>(new Color[] { Color.White });
+  }
+```
+- **LoadContent** - Carrega tudo que precisamos para podermos carregar o conteudo do jogo para os jogadores poderem visualisar.
+
+```
+  protected override void Update(GameTime gameTime)
+  {
+      if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+          Exit();
+
+      p1.Update(gameTime);
+      p2.Update(gameTime);
+      ball.Update(gameTime, p1, p2);
+
+      base.Update(gameTime);
+  }
+```
+- **Update** - Está em carregue de atualizar o jogo de forma a que os jogadores e a bola possam mexer. Também é aqui que foi escrito a forma à qual os jogadores podem sair do jogo.
+
+```
+  protected override void Draw(GameTime gameTime)
+  {
+      GraphicsDevice.Clear(Globals.BACKGROUND_COLOR);
+
+      Globals.spriteBatch.Begin();
+
+      p1.Draw();
+      p2.Draw();
+      ball.Draw();
+
+      Globals.spriteBatch.End();
+
+      base.Draw(gameTime);
+  }
+```
+- **Draw** - Está em carregue de desenhar e apresentar aos jogadores, visualmente, o que se passa. Desenhando tudo de novo a cada segundo que passa.
+
+---
+
+### Conclusão
+
+  Um problema que viemos as apareceber quando analizamos o código, é que não foi escrito nenhuma função ou classe que mostre aos jogadores a pontuação de cada um enquanto o jogo decorre, apesar de ter as variáveis para anotar e atualizar todas as vezes que um jogador marca um ponto. No entanto, fora disso, o jogo é relativamente simples, em termos de jogabilidade e em termos de código.
+
+
+
+
+
+
+
+
